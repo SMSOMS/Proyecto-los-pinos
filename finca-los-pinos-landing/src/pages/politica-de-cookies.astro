@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="Política de Cookies | Finca Los Pinos">
+  <div class="bg-brand-primary h-24"></div> <!-- Spacer for header -->
+  <main class="container mx-auto px-4 py-16 max-w-4xl min-h-screen">
+    <h1 class="font-serif text-4xl font-bold text-brand-primary mb-8">Política de Cookies</h1>
+    
+    <div class="prose prose-brand max-w-none text-brand-gray space-y-6">
+      <section>
+        <h2 class="text-xl font-bold text-brand-black mb-3">1. ¿Qué son las cookies?</h2>
+        <p>Las cookies son pequeños archivos de texto que se descargan en el equipo o dispositivo del usuario al acceder a determinadas páginas web. Permiten a una página web, entre otras cosas, almacenar y recuperar información sobre los hábitos de navegación del usuario y garantizar el funcionamiento técnico del sitio.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-brand-black mb-3">2. Tipos de cookies utilizadas en esta web</h2>
+        <p>Actualmente, esta página web <strong>únicamente utiliza cookies técnicas o estrictamente necesarias</strong>. Estas cookies no requieren el consentimiento del usuario, ya que son indispensables para permitir la navegación básica y el uso de las diferentes opciones o servicios que existen en la web, como controlar el tráfico y la comunicación de datos o utilizar elementos de seguridad durante la navegación.</p>
+        <p>En caso de integrar herramientas de análisis de tráfico (como Umami o Plausible), se han configurado en su versión respetuosa con la privacidad, sin hacer uso de cookies (cookieless) ni recolectar datos personales, conforme al RGPD.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-brand-black mb-3">3. Configuración y desactivación</h2>
+        <p>Aunque nuestra web no instala cookies no esenciales, usted puede permitir, bloquear o eliminar las cookies instaladas en su equipo mediante la configuración de las opciones del navegador instalado en su ordenador:</p>
+        <ul class="list-disc pl-5 mt-2">
+          <li><strong>Chrome:</strong> Configuración &gt; Privacidad y seguridad &gt; Cookies y otros datos de sitios.</li>
+          <li><strong>Firefox:</strong> Opciones &gt; Privacidad y Seguridad.</li>
+          <li><strong>Safari:</strong> Preferencias &gt; Privacidad.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

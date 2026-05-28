@@ -1,0 +1,220 @@
+---
+const rates = [
+  { month: "Enero", friday: "2.200 €", saturday: "2.700 €", sunday: "2.000 €" },
+  { month: "Febrero", friday: "2.200 €", saturday: "3.000 €", sunday: "2.000 €" },
+  { month: "Marzo", friday: "3.000 €", saturday: "3.900 €", sunday: "2.200 €" },
+  { month: "Abril", friday: "3.900 €", saturday: "4.300 €", sunday: "3.000 €" },
+  { month: "Mayo", friday: "4.100 €", saturday: "4.800 €", sunday: "3.300 €" },
+  { month: "Junio", friday: "4.100 €", saturday: "4.800 €", sunday: "3.300 €" },
+  { month: "Julio", friday: "4.200 €", saturday: "5.000 €", sunday: "3.500 €" },
+  { month: "Agosto", friday: "4.200 €", saturday: "5.000 €", sunday: "3.500 €" },
+  { month: "Septiembre", friday: "4.200 €", saturday: "5.000 €", sunday: "3.500 €" },
+  { month: "Octubre", friday: "3.900 €", saturday: "4.800 €", sunday: "3.300 €" },
+  { month: "Noviembre", friday: "3.500 €", saturday: "4.700 €", sunday: "3.000 €" },
+  { month: "Diciembre", friday: "3.500 €", saturday: "4.300 €", sunday: "3.000 €" }
+];
+---
+
+<section id="tarifas" class="py-24 bg-brand-crema text-brand-black relative">
+  <!-- Grid overlay background lines inside section to maintain visual theme -->
+  <div class="absolute inset-y-0 left-0 right-0 z-0 pointer-events-none hidden md:grid grid-cols-4 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="border-l border-brand-primary/5 h-full"></div>
+    <div class="border-l border-brand-primary/5 h-full"></div>
+    <div class="border-l border-brand-primary/5 h-full"></div>
+    <div class="border-l border-brand-primary/5 border-r h-full"></div>
+  </div>
+
+  <div class="container mx-auto px-6 md:px-12 max-w-7xl relative z-10">
+    <div class="text-center md:text-left mb-16 max-w-2xl">
+      <p class="font-accent text-4xl text-brand-primary mb-2">Transparencia</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4">Nuestras Tarifas 2027</h2>
+      <p class="text-brand-gray">Creemos en la claridad desde el primer momento. Consulta las tarifas de alquiler de la finca completa por día según la temporada y día de la semana.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <!-- Interactive Selector Card (5 cols) -->
+      <div class="lg:col-span-5 bg-brand-white p-8 rounded-2xl shadow-xl border border-brand-primary/10 flex flex-col gap-6">
+        <div>
+          <h3 class="font-serif text-2xl font-bold text-brand-primary mb-1">Calculadora de Alquiler</h3>
+          <p class="text-xs text-brand-gray">Obtén un presupuesto orientativo al instante</p>
+        </div>
+
+        <!-- Month Dropdown -->
+        <div class="flex flex-col gap-2">
+          <label for="month-select" class="text-xs font-semibold uppercase tracking-wider text-brand-gray">1. Elige el Mes</label>
+          <div class="relative">
+            <select 
+              id="month-select" 
+              class="w-full bg-brand-crema/40 border border-brand-primary/20 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/50 text-brand-black appearance-none cursor-pointer font-medium"
+            >
+              {rates.map((rate, idx) => (
+                <option value={idx} selected={rate.month === "Septiembre"}>{rate.month}</option>
+              ))}
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-brand-primary">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Day Selector Buttons -->
+        <div class="flex flex-col gap-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-brand-gray">2. Elige el Día</span>
+          <div class="grid grid-cols-3 gap-2">
+            <button 
+              type="button" 
+              data-day="friday"
+              class="day-btn py-3 px-2 text-center text-xs font-semibold rounded-lg border border-brand-primary/20 bg-brand-crema/40 hover:bg-brand-crema text-brand-black transition-colors cursor-pointer"
+            >
+              Viernes
+            </button>
+            <button 
+              type="button" 
+              data-day="saturday"
+              class="day-btn py-3 px-2 text-center text-xs font-semibold rounded-lg border border-brand-primary bg-brand-primary text-brand-white transition-colors cursor-pointer"
+            >
+              Sábado
+            </button>
+            <button 
+              type="button" 
+              data-day="sunday"
+              class="day-btn py-3 px-2 text-center text-xs font-semibold rounded-lg border border-brand-primary/20 bg-brand-crema/40 hover:bg-brand-crema text-brand-black transition-colors cursor-pointer"
+            >
+              Domingo
+            </button>
+          </div>
+        </div>
+
+        <!-- Price Showcase Area -->
+        <div class="bg-brand-crema/40 rounded-xl p-6 text-center border border-brand-primary/5">
+          <span class="text-xs text-brand-gray font-medium uppercase tracking-wider block mb-1">Precio Alquiler Finca</span>
+          <div class="font-serif text-4xl md:text-5xl font-bold text-brand-primary mb-2 transition-all duration-300" id="showcase-price">
+            5.000 €
+          </div>
+          <span class="text-[10px] text-brand-gray">* Precios no incluyen IGIC. Sujeto a disponibilidad de fecha.</span>
+        </div>
+
+        <!-- CTA Direct to chatbot -->
+        <button 
+          id="query-availability-btn"
+          class="w-full py-4 bg-brand-primary hover:bg-brand-primary/95 text-brand-white font-semibold rounded-lg transition-all duration-300 shadow-md text-sm text-center cursor-pointer hover:scale-[1.01]"
+        >
+          Consultar esta fecha en el Chat
+        </button>
+      </div>
+
+      <!-- Table Showcase (7 cols) -->
+      <div class="lg:col-span-7 bg-brand-white rounded-2xl shadow-xl overflow-hidden border border-brand-primary/10">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-brand-primary text-brand-white">
+                <th class="p-5 font-serif font-bold text-sm w-1/4">Mes</th>
+                <th class="p-5 font-serif font-bold text-sm w-1/4">Viernes</th>
+                <th class="p-5 font-serif font-bold text-sm w-1/4">Sábado</th>
+                <th class="p-5 font-serif font-bold text-sm w-1/4">Domingo</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rates.map((rate, index) => (
+                <tr 
+                  data-row-idx={index}
+                  class={`border-b border-brand-crema hover:bg-brand-crema/30 transition-colors ${index % 2 === 0 ? 'bg-brand-white' : 'bg-brand-crema/10'}`}
+                >
+                  <td class="p-4.5 font-semibold text-brand-black text-sm">{rate.month}</td>
+                  <td class="p-4.5 text-brand-gray text-sm font-medium" data-cell="friday">{rate.friday}</td>
+                  <td class="p-4.5 text-brand-gray text-sm font-medium" data-cell="saturday">{rate.saturday}</td>
+                  <td class="p-4.5 text-brand-gray text-sm font-medium" data-cell="sunday">{rate.sunday}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div class="bg-brand-crema/20 p-4 border-t border-brand-crema text-right">
+          <p class="text-xs text-brand-gray leading-relaxed font-medium">Toda la oferta comercial anterior es válida para contrataciones hasta Diciembre de 2026.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ rates }}>
+  // Reactivity logic for the calculator
+  document.addEventListener('DOMContentLoaded', () => {
+    const monthSelect = document.getElementById('month-select');
+    const dayButtons = document.querySelectorAll('.day-btn');
+    const priceDisplay = document.getElementById('showcase-price');
+    const queryBtn = document.getElementById('query-availability-btn');
+    const tableRows = document.querySelectorAll('tr[data-row-idx]');
+
+    let selectedMonthIdx = 8; // Septiembre default
+    let selectedDay = 'saturday'; // Sábado default
+
+    function updatePrice() {
+      const monthData = rates[selectedMonthIdx];
+      const price = monthData[selectedDay];
+      priceDisplay.textContent = price;
+
+      // Highlight the corresponding row and cell in the table
+      tableRows.forEach(row => {
+        row.classList.remove('bg-brand-primary/5', 'font-semibold');
+        const cells = row.querySelectorAll('td');
+        cells.forEach(cell => cell.classList.remove('text-brand-primary', 'font-bold'));
+      });
+
+      const activeRow = document.querySelector(`tr[data-row-idx="${selectedMonthIdx}"]`);
+      if (activeRow) {
+        activeRow.classList.add('bg-brand-primary/5');
+        const cell = activeRow.querySelector(`td[data-cell="${selectedDay}"]`);
+        if (cell) {
+          cell.classList.add('text-brand-primary', 'font-bold');
+        }
+      }
+    }
+
+    monthSelect.addEventListener('change', (e) => {
+      selectedMonthIdx = parseInt(e.target.value);
+      updatePrice();
+    });
+
+    dayButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        dayButtons.forEach(b => {
+          b.classList.remove('bg-brand-primary', 'text-brand-white');
+          b.classList.add('bg-brand-crema/40', 'text-brand-black');
+        });
+        btn.classList.add('bg-brand-primary', 'text-brand-white');
+        btn.classList.remove('bg-brand-crema/40', 'text-brand-black');
+
+        selectedDay = btn.getAttribute('data-day');
+        updatePrice();
+      });
+    });
+
+    queryBtn.addEventListener('click', () => {
+      const monthName = rates[selectedMonthIdx].month;
+      const dayLabel = selectedDay === 'friday' ? 'un Viernes' : selectedDay === 'saturday' ? 'un Sábado' : 'un Domingo';
+      const priceVal = rates[selectedMonthIdx][selectedDay];
+      
+      const message = `Hola, me gustaría consultar la disponibilidad para celebrar mi boda ${dayLabel} de ${monthName} (tarifa de alquiler: ${priceVal} + IGIC).`;
+      
+      if (window.openChatbot) {
+        window.openChatbot();
+        // Custom event or timeout to feed message
+        const chatInput = document.getElementById('chat-input');
+        const chatForm = document.getElementById('chat-form');
+        if (chatInput && chatForm) {
+          chatInput.value = message;
+          // Auto submit or wait for user to press send? Auto submit is nicer!
+          setTimeout(() => {
+            chatForm.dispatchEvent(new Event('submit', { cancelable: true }));
+          }, 400);
+        }
+      }
+    });
+
+    // Run once at start to highlight the default row/cell
+    updatePrice();
+  });
+</script>
+

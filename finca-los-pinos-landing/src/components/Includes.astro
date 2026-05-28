@@ -1,0 +1,39 @@
+---
+const includes = [
+  { icon: "tree", text: "Uso de los jardines" },
+  { icon: "bulb", text: "Iluminación básica" },
+  { icon: "shield", text: "Personal de seguridad" },
+  { icon: "clock", text: "Fiesta hasta 04:00 sábados / 02:00 viernes / 23:59 domingos" },
+  { icon: "sun", text: "12 horas para eventos de día (excepto domingos)" },
+  { icon: "music", text: "Derechos SGAE y AGEDI" },
+  { icon: "heart", text: "Habitación de los novios (incluida noche de boda)" },
+  { icon: "sparkles", text: "5 horas de limpieza de baños durante el evento" },
+  { icon: "coffee", text: "Habitación con desayuno incluido" }
+];
+---
+
+<section id="servicios" class="py-20 bg-brand-primary text-brand-white">
+  <div class="container mx-auto px-4 max-w-5xl">
+    <div class="text-center mb-16">
+      <h2 class="font-serif text-4xl font-bold mb-4">¿Qué incluye el alquiler?</h2>
+      <p class="text-brand-white/80 max-w-2xl mx-auto">Para que vuestro día sea perfecto y libre de preocupaciones, la reserva de la Finca Los Pinos incluye todos estos servicios base.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {includes.map((item) => (
+        <div class="flex items-start gap-4 p-4 rounded-lg bg-brand-white/5 hover:bg-brand-white/10 transition-colors">
+          <div class="text-brand-gold shrink-0 mt-1">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p class="font-medium text-brand-white/90 leading-snug">{item.text}</p>
+        </div>
+      ))}
+    </div>
+    
+    <div class="mt-12 text-center">
+      <p class="text-sm text-brand-white/60 italic">* Las condiciones específicas pueden variar según la fecha y el tipo de evento contratado.</p>
+    </div>
+  </div>
+</section>

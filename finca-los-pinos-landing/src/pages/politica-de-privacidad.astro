@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="Política de Privacidad | Finca Los Pinos">
+  <div class="bg-brand-primary h-24"></div> <!-- Spacer for header -->
+  <main class="container mx-auto px-4 py-16 max-w-4xl min-h-screen">
+    <h1 class="font-serif text-4xl font-bold text-brand-primary mb-8">Política de Privacidad</h1>
+    
+    <div class="prose prose-brand max-w-none text-brand-gray space-y-6">
+      <p class="text-sm italic">Última actualización: [Fecha pendiente]</p>
+      
+      <section>
+        <h2 class="text-xl font-bold text-brand-black mb-3">1. Responsable del Tratamiento</h2>
+        <p><strong>Identidad:</strong> LOS PINOS EVENTOS SL<br>
+        <strong>NIF:</strong> B76311109<br>
+        <strong>Dirección postal:</strong> Calle Lomo Obrero 21, Firgas, Gran Canaria, Las Palmas.<br>
+        <strong>Correo electrónico:</strong> info@fincapinos.com</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-brand-black mb-3">2. Finalidad del Tratamiento</h2>
+        <p>En Finca Los Pinos tratamos la información que nos facilitan las personas interesadas con el fin de:</p>
+        <ul class="list-disc pl-5">
+          <li>Gestionar y responder a las consultas sobre disponibilidad, servicios y tarifas.</li>
+          <li>Enviar información comercial relacionada con nuestros servicios de organización de eventos (si ha sido consentido expresamente).</li>
+          <li>Gestionar las reservas y la relación contractual en caso de confirmación.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-brand-black mb-3">3. Base Legitimadora</h2>
+        <p>La base legal para el tratamiento de sus datos es el <strong>consentimiento expreso</strong> prestado al marcar la casilla de aceptación en nuestros formularios web o en el widget de asistencia virtual. Para la ejecución de un contrato posterior, la base será la relación contractual.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-brand-black mb-3">4. Conservación de los Datos</h2>
+        <p>Los datos personales proporcionados se conservarán:</p>
+        <ul class="list-disc pl-5">
+          <li>Mientras se mantenga la relación comercial o no se solicite su supresión por el interesado, por un plazo máximo de <strong>2 años</strong> desde la última interacción.</li>
+          <li>Si se formaliza contrato, durante los plazos legales aplicables.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-brand-black mb-3">5. Destinatarios y Transferencias Internacionales</h2>
+        <p>Para la gestión de los datos de contacto, utilizamos herramientas de terceros que actúan como encargados de tratamiento (por ejemplo, Airtable). Dado que los servidores de Airtable se encuentran en EE.UU., se produce una transferencia internacional de datos, amparada por el Data Privacy Framework (DPF) u otros mecanismos legales equivalentes. No se cederán datos a otros terceros salvo obligación legal.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-brand-black mb-3">6. Derechos del Usuario</h2>
+        <p>Cualquier persona tiene derecho a obtener confirmación sobre si estamos tratando sus datos personales. Puede ejercer los siguientes derechos ante el Responsable del Tratamiento mediante el correo electrónico indicado:</p>
+        <ul class="list-disc pl-5">
+          <li>Acceso, rectificación o supresión de sus datos.</li>
+          <li>Limitación u oposición al tratamiento.</li>
+          <li>Portabilidad de los datos.</li>
+          <li>Retirar el consentimiento prestado en cualquier momento.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

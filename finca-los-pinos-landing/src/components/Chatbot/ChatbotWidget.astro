@@ -1,0 +1,346 @@
+---
+---
+
+<div id="chatbot-container" class="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
+  <!-- Chatbot Panel with premium glassmorphism -->
+  <div id="chatbot-panel" class="bg-brand-white/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(42,42,42,0.15)] w-full sm:w-[360px] sm:h-[520px] h-[calc(100vh-100px)] max-h-[620px] flex flex-col overflow-hidden mb-4 transition-all duration-300 opacity-0 translate-y-10 pointer-events-none border border-brand-primary/10 origin-bottom-right scale-95">
+    
+    <!-- Header -->
+    <div class="bg-brand-primary text-brand-white p-4 flex justify-between items-center shrink-0 shadow-md">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-brand-white/10 flex items-center justify-center shrink-0 border border-brand-white/10">
+          <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+        </div>
+        <div>
+          <h3 class="font-serif font-bold leading-tight tracking-wide text-sm sm:text-base">Finca Los Pinos</h3>
+          <p class="text-[10px] text-brand-white/80">Asistente Virtual · 24/7</p>
+        </div>
+      </div>
+      <button id="close-chat" class="text-brand-white/80 hover:text-brand-white transition-colors p-1.5 rounded-full hover:bg-brand-white/10 cursor-pointer" aria-label="Cerrar chat">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Messages Area -->
+    <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-brand-crema/10 scroll-smooth">
+      <!-- Mensajes se insertan aquí vía JS -->
+    </div>
+
+    <!-- Quick Actions (Suggested Actions) -->
+    <div id="chat-quick-actions" class="px-4 py-2.5 flex gap-2 overflow-x-auto no-scrollbar shrink-0 border-t border-brand-crema/40 bg-brand-white/80 hidden">
+      <!-- Acciones rápidas vía JS -->
+    </div>
+
+    <!-- Lead Form (Hidden by default) -->
+    <form id="lead-form" class="hidden flex-col gap-3 p-4 border-t border-brand-crema bg-brand-crema/30 shrink-0">
+      <div>
+        <h4 class="text-xs font-bold text-brand-primary uppercase tracking-wider mb-1">Solicitud de Presupuesto</h4>
+        <p class="text-[10px] text-brand-gray">Completa los datos para agendar tu fecha en nuestro CRM y avisar al comercial.</p>
+      </div>
+      <input type="text" id="lead-name" placeholder="Tu nombre completo" required class="text-xs p-2.5 bg-brand-white border border-brand-primary/10 rounded-lg focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition-all text-brand-black" />
+      <input type="email" id="lead-email" placeholder="Tu correo electrónico" required class="text-xs p-2.5 bg-brand-white border border-brand-primary/10 rounded-lg focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition-all text-brand-black" />
+      <input type="tel" id="lead-phone" placeholder="Tu teléfono (ej. 600000000)" pattern="[0-9]{9,}" required class="text-xs p-2.5 bg-brand-white border border-brand-primary/10 rounded-lg focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition-all text-brand-black" />
+      <input type="date" id="lead-date" placeholder="Fecha tentativa" class="text-xs p-2.5 bg-brand-white border border-brand-primary/10 rounded-lg focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition-all text-brand-gray" />
+      <input type="number" id="lead-guests" placeholder="Nº aproximado de invitados" class="text-xs p-2.5 bg-brand-white border border-brand-primary/10 rounded-lg focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition-all text-brand-black" />
+      
+      <!-- Honeypot -->
+      <input type="text" id="lead-honeypot" class="hidden" tabindex="-1" autocomplete="off" />
+
+      <label class="flex items-start gap-2 text-[10px] text-brand-gray mt-1 leading-snug cursor-pointer select-none">
+        <input type="checkbox" id="lead-consent" required class="mt-0.5 accent-brand-primary" />
+        <span>Consiento el tratamiento de mis datos según la <a href="/politica-de-privacidad" class="underline text-brand-primary font-semibold" target="_blank">política de privacidad</a> para enviarme la oferta comercial.</span>
+      </label>
+      <button type="submit" class="bg-brand-primary hover:bg-brand-primary/95 text-brand-white py-3 rounded-lg text-xs font-bold mt-2 shadow-md hover:scale-[1.01] transition-all cursor-pointer">Enviar Datos al Comercial</button>
+    </form>
+
+    <!-- Input Area -->
+    <div id="chat-input-area" class="p-3 bg-brand-white border-t border-brand-crema/40 shrink-0">
+      <form id="chat-form" class="flex gap-2 relative">
+        <input 
+          type="text" 
+          id="chat-input" 
+          placeholder="Pregúntame sobre tarifas, espacio..." 
+          class="flex-1 bg-brand-crema/30 border border-brand-primary/10 rounded-full px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-brand-primary/40 text-brand-black transition-all"
+          autocomplete="off"
+        />
+        <button type="submit" class="w-9 h-9 rounded-full bg-brand-primary text-brand-white flex items-center justify-center shrink-0 hover:bg-brand-primary/90 transition-all cursor-pointer active:scale-95 shadow-md" aria-label="Enviar">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+        </button>
+      </form>
+      <div class="text-[9px] text-center text-brand-gray mt-2 font-medium">Asistencia automatizada · Privacidad garantizada</div>
+    </div>
+  </div>
+
+  <!-- Chatbot Toggle Button -->
+  <button id="toggle-chat" class="w-14 h-14 bg-brand-primary text-brand-white rounded-full shadow-xl flex items-center justify-center hover:bg-brand-primary/90 hover:scale-105 active:scale-95 transition-all duration-300 pointer-events-auto group relative cursor-pointer">
+    <span class="absolute right-0 top-0 -mt-1 -mr-1 flex h-4 w-4">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-gold opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-4 w-4 bg-brand-gold border-2 border-brand-white"></span>
+    </span>
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+  </button>
+</div>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .chat-message {
+    max-width: 85%;
+    padding: 0.75rem 1.15rem;
+    border-radius: 1.25rem;
+    font-size: 0.825rem;
+    line-height: 1.45;
+    word-break: break-word;
+    animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .message-bot {
+    background-color: var(--color-brand-white);
+    color: var(--color-brand-black);
+    border: 1px solid rgba(58, 107, 71, 0.08);
+    border-bottom-left-radius: 0.25rem;
+    align-self: flex-start;
+    box-shadow: 0 2px 8px rgba(42, 42, 42, 0.02);
+  }
+  
+  .message-user {
+    background-color: var(--color-brand-primary);
+    color: var(--color-brand-white);
+    border-bottom-right-radius: 0.25rem;
+    align-self: flex-end;
+    box-shadow: 0 4px 12px rgba(58, 107, 71, 0.12);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .typing-indicator span {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: currentColor;
+    border-radius: 50%;
+    margin: 0 2px;
+    animation: typing 1.4s infinite ease-in-out both;
+  }
+
+  .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+  .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+  @keyframes typing {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
+</style>
+
+<script>
+  // Chatbot Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const WEBHOOK_URL = import.meta.env.PUBLIC_CHATBOT_WEBHOOK_URL || 'https://n8n.dominio/webhook/chatbot';
+    const WEBHOOK_TOKEN = import.meta.env.PUBLIC_CHATBOT_TOKEN || 'dummy-token';
+
+    const panel = document.getElementById('chatbot-panel');
+    const toggleBtn = document.getElementById('toggle-chat');
+    const closeBtn = document.getElementById('close-chat');
+    const messagesArea = document.getElementById('chat-messages');
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('chat-input');
+    const quickActions = document.getElementById('chat-quick-actions');
+    const leadForm = document.getElementById('lead-form');
+    const inputArea = document.getElementById('chat-input-area');
+
+    let isOpen = false;
+    let sessionId = localStorage.getItem('finca_chat_session') || crypto.randomUUID();
+    let history = [];
+    localStorage.setItem('finca_chat_session', sessionId);
+
+    // Initial Bot Message
+    const initialActions = ["Ver tarifas", "Disponibilidad", "Servicios incluidos", "Hablar con alguien"];
+
+    // Make window function for external triggers (like Hero CTA)
+    window.openChatbot = () => {
+      if (!isOpen) togglePanel();
+    };
+
+    function togglePanel() {
+      isOpen = !isOpen;
+      if (isOpen) {
+        panel.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none', 'scale-95');
+        panel.classList.add('pointer-events-auto', 'scale-100');
+        if (history.length === 0) {
+          setTimeout(() => {
+            addMessage("¡Hola! 👋 Soy el asistente virtual de Finca Los Pinos. ¿En qué te puedo ayudar hoy para organizar tu boda o evento?", 'bot');
+            renderQuickActions(initialActions);
+          }, 300);
+        }
+      } else {
+        panel.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none', 'scale-95');
+        panel.classList.remove('pointer-events-auto', 'scale-100');
+      }
+    }
+
+    toggleBtn.addEventListener('click', togglePanel);
+    closeBtn.addEventListener('click', togglePanel);
+
+    function addMessage(text, sender) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flex flex-col w-full';
+      
+      const msg = document.createElement('div');
+      msg.className = `chat-message ${sender === 'bot' ? 'message-bot' : 'message-user'}`;
+      msg.innerHTML = text; // Permite formato básico HTML que venga del bot
+      
+      wrapper.appendChild(msg);
+      messagesArea.appendChild(wrapper);
+      messagesArea.scrollTop = messagesArea.scrollHeight;
+      
+      if (sender !== 'system') {
+        history.push({ sender, text });
+      }
+    }
+
+    function renderQuickActions(actions) {
+      quickActions.innerHTML = '';
+      if (!actions || actions.length === 0) {
+        quickActions.classList.add('hidden');
+        return;
+      }
+      
+      quickActions.classList.remove('hidden');
+      actions.forEach(action => {
+        const btn = document.createElement('button');
+        btn.className = 'shrink-0 px-3 py-1.5 bg-brand-crema text-brand-primary border border-brand-primary/20 rounded-full text-xs font-medium hover:bg-brand-primary hover:text-brand-white transition-colors';
+        btn.textContent = action;
+        btn.onclick = () => {
+          quickActions.classList.add('hidden');
+          sendMessageToBot(action);
+        };
+        quickActions.appendChild(btn);
+      });
+      messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    function showTyping() {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flex flex-col w-full typing-indicator-wrapper';
+      wrapper.id = 'typing-indicator';
+      
+      const msg = document.createElement('div');
+      msg.className = `chat-message message-bot typing-indicator text-brand-gray py-2`;
+      msg.innerHTML = `<span></span><span></span><span></span>`;
+      
+      wrapper.appendChild(msg);
+      messagesArea.appendChild(wrapper);
+      messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    function hideTyping() {
+      const indicator = document.getElementById('typing-indicator');
+      if (indicator) indicator.remove();
+    }
+
+    async function sendMessageToBot(text) {
+      if (!text.trim()) return;
+      
+      addMessage(text, 'user');
+      input.value = '';
+      quickActions.classList.add('hidden');
+      showTyping();
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Chatbot-Token': WEBHOOK_TOKEN
+          },
+          body: JSON.stringify({ sessionId, message: text, history })
+        });
+
+        hideTyping();
+
+        if (!response.ok) throw new Error('Network error');
+        
+        const data = await response.json();
+        
+        if (data.reply) addMessage(data.reply, 'bot');
+        if (data.suggestedActions) renderQuickActions(data.suggestedActions);
+        
+        if (data.captureLeadStep) {
+          showLeadForm();
+        }
+
+      } catch (error) {
+        hideTyping();
+        addMessage("Estamos teniendo problemas técnicos momentáneos. Por favor, escríbenos directamente a info@fincapinos.com", 'bot');
+        console.error('Chatbot error:', error);
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sendMessageToBot(input.value);
+    });
+
+    // Lead Capture Form Logic
+    function showLeadForm() {
+      leadForm.classList.remove('hidden');
+      leadForm.classList.add('flex');
+      inputArea.classList.add('hidden');
+      quickActions.classList.add('hidden');
+      messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    leadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const honeypot = document.getElementById('lead-honeypot').value;
+      if (honeypot) return; // Bot detectado
+
+      const consent = document.getElementById('lead-consent').checked;
+      if (!consent) return;
+
+      const leadData = {
+        name: document.getElementById('lead-name').value,
+        email: document.getElementById('lead-email').value,
+        phone: document.getElementById('lead-phone').value,
+        date: document.getElementById('lead-date').value,
+        guests: document.getElementById('lead-guests').value,
+        consentTimestamp: new Date().toISOString()
+      };
+
+      leadForm.innerHTML = '<p class="text-sm text-center text-brand-primary font-medium p-4">Enviando datos...</p>';
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Chatbot-Token': WEBHOOK_TOKEN
+          },
+          body: JSON.stringify({ sessionId, type: 'lead_capture', leadData })
+        });
+
+        if (!response.ok) throw new Error('Lead submission failed');
+
+        leadForm.classList.add('hidden');
+        leadForm.classList.remove('flex');
+        inputArea.classList.remove('hidden');
+        
+        addMessage("¡Gracias! Hemos recibido tus datos correctamente. Nuestro equipo comercial se pondrá en contacto contigo lo antes posible para ayudarte a organizar tu evento.", 'bot');
+
+      } catch (error) {
+        leadForm.innerHTML = '<p class="text-sm text-center text-red-600 font-medium p-4">Hubo un error al enviar los datos. Por favor, contáctanos en info@fincapinos.com</p>';
+      }
+    });
+
+  });
+</script>

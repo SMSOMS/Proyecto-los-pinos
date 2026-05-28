@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+
+const { title = "Finca Los Pinos - Eventos y Bodas Exclusivas", description = "Espacio exclusivo para bodas y eventos en Gran Canaria. Celebraciones rodeadas de naturaleza con capacidad para 300 invitados." } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Italianno&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Schema.org JSON-LD Structured Data for SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["EventVenue", "LocalBusiness"],
+      "name": "Finca Los Pinos",
+      "image": "https://fincapinos.com/images/foto_1.jpeg",
+      "@id": "https://fincapinos.com",
+      "url": "https://fincapinos.com",
+      "telephone": "+34636418627",
+      "email": "info@fincapinos.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Calle Lomo Obrero 21",
+        "addressLocality": "Firgas",
+        "addressRegion": "Gran Canaria",
+        "postalCode": "35430",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 28.106566,
+        "longitude": -15.568393
+      },
+      "priceRange": "$$$$",
+      "capacity": 300,
+      "award": "Wedding Awards Bodas.net (2020-2026)",
+      "sameAs": [
+        "https://www.instagram.com/finca_los_pinos/",
+        "https://www.facebook.com/efincapinos/"
+      ]
+    }
+  </script>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+  <main class="flex-grow">
+    <slot />
+  </main>
+</body>
+</html>

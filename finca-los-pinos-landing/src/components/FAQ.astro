@@ -1,0 +1,106 @@
+---
+const faqs = [
+  {
+    q: "¿Cuál es la capacidad máxima?",
+    a: "La finca tiene capacidad para celebrar eventos de hasta 300 invitados cómodamente."
+  },
+  {
+    q: "¿Qué incluye el alquiler de la finca?",
+    a: "Incluye el uso de los jardines, iluminación básica, personal de seguridad, fiesta hasta 04:00 (sábados) / 02:00 (viernes) / 23:59 (domingos), 12 horas para eventos de día (excepto domingos), derechos SGAE y AGEDI, habitación de novios con noche de boda y desayuno, y 5 horas de limpieza de baños durante el evento."
+  },
+  {
+    q: "¿Hasta qué hora puede durar la fiesta?",
+    a: "La fiesta puede durar hasta las 04:00 am los sábados, las 02:00 am los viernes y las 23:59 los domingos."
+  },
+  {
+    q: "¿Se puede celebrar la ceremonia civil en la finca?",
+    a: "Sí, disponemos de hermosos espacios para oficiar la ceremonia civil. Su realización no genera un cargo adicional por concepto de montaje de espacio por parte de la finca, aunque el arrendatario deberá asumir el costo del alquiler de las sillas requeridas (disponemos de sillas Tiffany champagne por 2 €/unidad)."
+  },
+  {
+    q: "¿Hay alojamiento para los invitados?",
+    a: "Sí, la vivienda se pone a disposición con 7 amplias habitaciones Deluxe (incluida la Suite Los Pinos) donde pueden hospedarse un máximo de 14 personas."
+  },
+  {
+    q: "¿Qué política tienen sobre arroz, confeti o pirotecnia?",
+    a: "Por respeto al medio ambiente y al cuidado de la flora de la finca, no está permitida la pirotecnia, el arroz ni el confeti. Sí se permite el uso de pétalos y productos biodegradables."
+  },
+  {
+    q: "¿Cómo y cuándo se formaliza la reserva?",
+    a: "Se formaliza mediante el abono de un anticipo no reembolsable de 1.500 € (más IGIC). El importe restante se divide en dos pagos: el primero 6 meses antes del evento y el último 1 mes antes."
+  },
+  {
+    q: "¿Puedo elegir mi propio catering?",
+    a: "Para garantizar la máxima excelencia, el pinchado de música y los caterings deben seleccionarse exclusivamente de nuestra lista autorizada de proveedores homologados (La Vaquita, Vintia, Yanioma, Chef Jose Rojano, Casa Pueblo, Barbacoa Canaria)."
+  }
+];
+---
+
+<section id="faq" class="py-24 bg-brand-crema relative">
+  <!-- Visual grid lines -->
+  <div class="absolute inset-y-0 left-0 right-0 z-0 pointer-events-none hidden md:grid grid-cols-4 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="border-l border-brand-primary/5 h-full"></div>
+    <div class="border-l border-brand-primary/5 h-full"></div>
+    <div class="border-l border-brand-primary/5 h-full"></div>
+    <div class="border-l border-brand-primary/5 border-r h-full"></div>
+  </div>
+
+  <div class="container mx-auto px-6 md:px-12 max-w-3xl relative z-10">
+    <div class="text-center mb-16">
+      <p class="font-accent text-4xl text-brand-primary mb-2">Ayuda</p>
+      <h2 class="font-serif text-4xl font-bold text-brand-black mb-4">Preguntas Frecuentes</h2>
+      <p class="text-brand-gray text-sm">Resolvemos tus dudas al instante para facilitarte la organización de tu boda</p>
+    </div>
+
+    <div class="space-y-4" id="faq-accordion">
+      {faqs.map((faq, index) => (
+        <div class="border border-brand-primary/10 bg-brand-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+          <button 
+            class="faq-button w-full flex items-center justify-between p-6 text-left focus:outline-none focus:ring-2 focus:ring-brand-primary/30 cursor-pointer"
+            aria-expanded="false"
+            aria-controls={`faq-answer-${index}`}
+          >
+            <span class="font-semibold text-brand-black pr-4 text-sm md:text-base">{faq.q}</span>
+            <svg class="faq-icon w-5 h-5 text-brand-primary transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div 
+            id={`faq-answer-${index}`} 
+            class="faq-answer grid grid-rows-[0fr] transition-all duration-300 ease-out"
+          >
+            <div class="overflow-hidden">
+              <p class="px-6 pb-6 text-brand-gray text-sm leading-relaxed">{faq.a}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.faq-button');
+    
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        const answer = button.nextElementSibling;
+        const icon = button.querySelector('.faq-icon');
+        
+        if (isExpanded) {
+          button.setAttribute('aria-expanded', 'false');
+          answer?.classList.remove('grid-rows-[1fr]');
+          answer?.classList.add('grid-rows-[0fr]');
+          icon?.classList.remove('rotate-180');
+        } else {
+          button.setAttribute('aria-expanded', 'true');
+          answer?.classList.remove('grid-rows-[0fr]');
+          answer?.classList.add('grid-rows-[1fr]');
+          icon?.classList.add('rotate-180');
+        }
+      });
+    });
+  });
+</script>
+
