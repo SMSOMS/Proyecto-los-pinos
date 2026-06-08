@@ -147,3 +147,30 @@ Dado que la landing se compila a un sitio puramente estático (`output: 'static'
    - Configura el directorio de publicación (*Publish Directory*): `dist`
 4. **Variables de entorno**: Agrega las variables `PUBLIC_CHATBOT_WEBHOOK_URL` y `PUBLIC_CHATBOT_TOKEN` en la pestaña de variables de entorno de la aplicación en Easypanel para que se inyecten durante el build de Astro.
 5. **Dominio**: Vincula el dominio definitivo (ej. `bodas.fincapinos.com` o similar). Traefik/Easypanel gestionará automáticamente la emisión y renovación del certificado SSL con Let's Encrypt de forma transparente.
+
+---
+
+## 📝 Registro de Cambios (8 de Junio de 2026)
+
+Hoy se han realizado varias correcciones críticas para dejar el proyecto listo para producción a falta de vincular el dominio definitivo:
+
+1. **Corrección de Variables de Entorno en Compilación Docker (Easypanel)**:
+   - Modificado el `Dockerfile` de producción para declarar explícitamente los argumentos de compilación (`ARG`) para Astro: `PUBLIC_CHATBOT_WEBHOOK_URL` y `PUBLIC_CHATBOT_TOKEN`.
+   - Mapeados estos argumentos a variables de entorno (`ENV`) para que estén disponibles durante la fase `RUN npm run build` de Docker en la compilación remota.
+   - *Nota de configuración*: Estas variables deben estar definidas en la sección **Environment** del servicio de la landing page en Easypanel para que se inyecten en el despliegue.
+
+2. **Resolución de Variables en Plantillas de Correo (n8n)**:
+   - Se ha corregido la sintaxis de variables en los nodos de envío de correos (**Send Confirmation Email** y **Notify Sales Team**) en el flujo de n8n.
+   - Cambiado el uso de template literals de JavaScript (\` y `${}`) por la sintaxis estándar de expresiones de n8n con doble llave (`{{ ... }}`).
+   - El flujo remoto ya está actualizado, guardado y activado. Las confirmaciones de leads ahora envían datos reales.
+
+3. **Adaptabilidad del Chatbot en Móviles**:
+   - Corregido un descuadre en dispositivos móviles donde el panel de chat se recortaba a la izquierda debido al uso de `w-full` junto con un desplazamiento fijo a la derecha (`right-6`).
+   - Actualizado el contenedor a `left-4 right-4 bottom-4` en móviles para centrarlo con márgenes de 16px, y configurada la transición adaptativa a `sm:left-auto sm:right-6 sm:bottom-6 sm:w-[360px]` en pantallas de escritorio.
+
+---
+
+## 📌 Próximos Pasos / Tareas Pendientes
+
+- **Vincular el Dominio Definitivo**: Configurar el dominio final de producción en Easypanel (ej. `bodas.fincapinos.com` o subdominio similar) y apuntar los registros DNS correspondientes para habilitar el SSL automático de Let's Encrypt de forma transparente.
+
