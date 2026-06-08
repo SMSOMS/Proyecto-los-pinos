@@ -1,5 +1,11 @@
 {
+  "updatedAt": "2026-05-29T14:43:32.943Z",
+  "createdAt": "2026-05-27T22:25:40.198Z",
+  "id": "inXBN3rrIUveuErK",
   "name": "Finca Los Pinos - Chatbot & Lead capture",
+  "description": null,
+  "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -13,9 +19,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
-        250,
-        300
-      ]
+        256,
+        304
+      ],
+      "webhookId": "49f789fb-30a8-4ff4-9f53-9ffc6f451525"
     },
     {
       "parameters": {
@@ -23,7 +30,6 @@
           "string": [
             {
               "value1": "={{ $json.body.type }}",
-              "operation": "equal",
               "value2": "lead_capture"
             }
           ]
@@ -34,81 +40,57 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        470,
-        300
+        480,
+        304
       ]
     },
     {
       "parameters": {
-        "operation": "append",
-        "application": "appMvp5YeXQS9kcbq",
+        "authentication": "airtableTokenApi",
+        "resource": "record",
+        "operation": "create",
+        "base": "appMvp5YeXQS9kcbq",
         "table": "tblsDCJ4z7Hk2rev1",
-        "fieldsUi": {
-          "fieldValues": [
-            {
-              "fieldId": "ID",
-              "fieldValue": "=lead-{{ $now.timestamp }}"
-            },
-            {
-              "fieldId": "Nombre",
-              "fieldValue": "={{ $json.body.leadData.name }}"
-            },
-            {
-              "fieldId": "Email",
-              "fieldValue": "={{ $json.body.leadData.email }}"
-            },
-            {
-              "fieldId": "Telefono",
-              "fieldValue": "={{ $json.body.leadData.phone }}"
-            },
-            {
-              "fieldId": "Fecha Tentativa",
-              "fieldValue": "={{ $json.body.leadData.date }}"
-            },
-            {
-              "fieldId": "Invitados",
-              "fieldValue": "={{ parseInt($json.body.leadData.guests) }}"
-            },
-            {
-              "fieldId": "Consentimiento",
-              "fieldValue": "=true"
-            },
-            {
-              "fieldId": "Consentimiento_TS",
-              "fieldValue": "={{ $json.body.leadData.consentTimestamp }}"
-            },
-            {
-              "fieldId": "SessionID",
-              "fieldValue": "={{ $json.body.sessionId }}"
-            },
-            {
-              "fieldId": "Origen",
-              "fieldValue": "landing_page"
-            }
-          ]
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "=lead-{{ Date.now() }}",
+            "Nombre": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.name }}",
+            "Email": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.email }}",
+            "Telefono": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.phone }}",
+            "Fecha Tentativa": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.date }}",
+            "Invitados": "={{ parseInt($node[\"Webhook Chatbot\"].json.body.leadData.guests) }}",
+            "Consentimiento": true,
+            "Consentimiento_TS": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.consentTimestamp }}",
+            "SessionID": "={{ $node[\"Webhook Chatbot\"].json.body.sessionId }}",
+            "Origen": "landing_page"
+          }
+        },
+        "options": {
+          "typecast": true
         }
       },
       "id": "cb15a9ff-039c-49f3-8b7c-d67b2ff90333",
       "name": "Airtable Create Lead",
       "type": "n8n-nodes-base.airtable",
-      "typeVersion": 1,
+      "typeVersion": 2.1,
       "position": [
         720,
-        200
+        208
       ],
       "credentials": {
-        "airtableApi": {
-          "id": "RnujLQ8jLWxjJncN",
-          "name": "Airtable Personal Access Token account"
+        "airtableTokenApi": {
+          "id": "uZjtNmNUCDrX8Sxm",
+          "name": "Airtable Personal Access Token account 3"
         }
       }
     },
     {
       "parameters": {
-        "promptType": "define",
         "text": "={{ $json.body.message }}",
-        "systemMessage": "Eres el asistente virtual oficial de Finca Los Pinos, un prestigioso espacio para celebrar bodas y eventos ubicado en Firgas, Gran Canaria. Tu objetivo es responder dudas con calidez en español de España (hablando de vuestro/vosotros) de manera concisa y clara, e identificar cuándo la pareja desea reservar, visitar la finca o consultar una fecha para derivarlos a capturar sus datos.\n\nINFORMACIÓN VINCULANTE (Única Verdad):\n- Capacidad máxima: 300 invitados.\n- Ubicación: Calle Lomo Obrero 21, Firgas, Gran Canaria. A 20 minutos de Las Palmas.\n- Trayectoria: Más de 15 años de experiencia. Premiados 7 años consecutivos con los Wedding Awards de Bodas.net (2020-2026). Valoración de 4.9/5 con 181 opiniones.\n\nSERVICIOS INCLUIDOS EN EL ALQUILER:\n- Uso de los jardines de la finca.\n- Iluminación básica de jardines.\n- Personal de seguridad.\n- Derechos de música SGAE y AGEDI incluidos.\n- Suite de novios (noche de bodas incluida con desayuno).\n- 5 horas de servicio de limpieza de baños durante el evento.\n- Habitación extra con desayuno incluido.\n- Horas de evento de día: 12 horas (excepto domingos).\n\nTABLA DE TARIFAS DE ALQUILER 2027 (Precios sin IGIC):\n- Enero: Viernes 2.200 €, Sábado 2.700 €, Domingo 2.000 €\n- Febrero: Viernes 2.200 €, Sábado 3.000 €, Domingo 2.000 €\n- Marzo: Viernes 3.000 €, Sábado 3.900 €, Domingo 2.200 €\n- Abril: Viernes 3.900 €, Sábado 4.300 €, Domingo 3.000 €\n- Mayo: Viernes 4.100 €, Sábado 4.800 €, Domingo 3.300 €\n- Junio: Viernes 4.100 €, Sábado 4.800 €, Domingo 3.300 €\n- Julio: Viernes 4.200 €, Sábado 5.000 €, Domingo 3.500 €\n- Agosto: Viernes 4.200 €, Sábado 5.000 €, Domingo 3.500 €\n- Septiembre: Viernes 4.200 €, Sábado 5.000 €, Domingo 3.500 €\n- Octubre: Viernes 3.900 €, Sábado 4.800 €, Domingo 3.300 €\n- Noviembre: Viernes 3.500 €, Sábado 4.700 €, Domingo 3.000 €\n- Diciembre: Viernes 3.500 €, Sábado 4.300 €, Domingo 3.000 €\n\nHORARIOS DE FIESTA Y MONTAJES:\n- Viernes: Fiesta hasta 02:00 am. Montaje 24h antes. Recogida antes de las 09:00 am del sábado.\n- Sábado: Fiesta hasta 04:00 am. No se permite montaje 24h antes (salvo contratar mín. 4 habitaciones). Recogida antes de las 09:00 am del domingo.\n- Domingo: Fiesta hasta 23:59. No se permite montaje 24h antes (comienza a las 07:00 am del domingo). Recogida antes de las 10:00 am del lunes.\n\nSERVICIOS EXTRAS:\n- Sillas Tiffany champagne: 2 €/unidad.\n- Parasoles 3x3m: 25 €/unidad.\n- Estufas de calor: 60 €/unidad.\n- Personal extra limpieza baños: 25 €/hora.\n- Habitaciones Deluxe: 180 €/noche (IGIC incluido).\n- Suite Los Pinos: 200 €/noche (IGIC incluido).\n\nNORMATIVAS:\n- Prohibido pirotecnia, arroz y confeti. Permitido pétalos y productos biodegradables.\n- Catering y Dj obligatorios de la lista homologada.\n\nCATERINGS AUTORIZADOS:\n- La Vaquita, Vintia, Yanioma, Chef Jose Rojano, Casa Pueblo, Barbacoa Canaria.\n\nPROVEEDORES AUTORIZADOS EXTRA:\n- Floristería: El Arriate\n- Iluminación/Sonido: Grupo Ruido\n- Carpas: Tentación, Garcitecnia, Loype, Celebraciones Pg, Tents and Events\n- Glitter: Glitter Party\n- Hora Loca: Party Animal\n\nRESERVA:\n- Anticipo de 1.500 € + IGIC (no reembolsable). Resto en dos pagos: 6 meses antes y 1 mes antes.\n- Ceremonias civiles no tienen recargo de montaje de finca (sillas aparte).\n\nREGLA CLAVE PARA CAPTURA DE LEAD:\nSi el usuario indica que desea reservar, visitar la finca o solicita disponibilidad, indícale de forma natural que vas a solicitar sus datos de contacto para que el equipo comercial le asista, y activa la variable de captura agregando el campo `captureLeadStep` en tu respuesta JSON final.",
-        "options": {}
+        "options": {
+          "systemMessage": "[INSTRUCCIÓN CRÍTICA DE FUNCIONAMIENTO]\nNo tienes acceso a ninguna herramienta externa, buscador ni navegador (como 'Search', 'Browser' u otros). Tienes terminantemente prohibido intentar llamar a herramientas. Debes responder SIEMPRE directamente al usuario utilizando ÚNICAMENTE la información provista a continuación. Tu respuesta interna debe consistir siempre en la acción \"Final Answer\" con tu respuesta en español. Toda la información de tarifas y capacidad está en este prompt.\n\nEres el asistente virtual oficial de Finca Los Pinos, un prestigioso espacio para celebrar bodas y eventos ubicado en Firgas, Gran Canaria. Tu objetivo es responder dudas con calidez en español de España (hablando de vuestro/vosotros) de manera concisa y clara, e identificar cuándo la pareja desea reservar, visitar la finca o consultar una fecha para derivarlos a capturar sus datos.\n\nINFORMACIÓN VINCULANTE (Única Verdad):\n- Capacidad máxima: 300 invitados.\n- Ubicación: Calle Lomo Obrero 21, Firgas, Gran Canaria. A 20 minutos de Las Palmas.\n- Trayectoria: Más de 15 años de experiencia. Premiados 7 años consecutivos con los Wedding Awards de Bodas.net (2020-2026). Valoración de 4.9/5 con 181 opiniones.\n\nSERVICIOS INCLUIDOS EN EL ALQUILER:\n- Uso de los jardines de la finca.\n- Iluminación básica de jardines.\n- Personal de seguridad.\n- Derechos de música SGAE y AGEDI incluidos.\n- Suite de novios (noche de bodas incluida con desayuno).\n- 5 horas de servicio de limpieza de baños durante el evento.\n- Habitación extra con desayuno incluido.\n- Horas de evento de día: 12 horas (excepto domingos).\n\nTABLA DE TARIFAS DE ALQUILER 2027 (Precios sin IGIC):\n- Enero: Viernes 2.200 €, Sábado 2.700 €, Domingo 2.000 €\n- Febrero: Viernes 2.200 €, Sábado 3.000 €, Domingo 2.000 €\n- Marzo: Viernes 3.000 €, Sábado 3.900 €, Domingo 2.200 €\n- Abril: Viernes 3.900 €, Sábado 4.300 €, Domingo 3.000 €\n- Mayo: Viernes 4.100 €, Sábado 4.800 €, Domingo 3.300 €\n- Junio: Viernes 4.100 €, Sábado 4.800 €, Domingo 3.300 €\n- Julio: Viernes 4.200 €, Sábado 5.000 €, Domingo 3.500 €\n- Agosto: Viernes 4.200 €, Sábado 5.000 €, Domingo 3.500 €\n- Septiembre: Viernes 4.200 €, Sábado 5.000 €, Domingo 3.500 €\n- Octubre: Viernes 3.900 €, Sábado 4.800 €, Domingo 3.300 €\n- Noviembre: Viernes 3.500 €, Sábado 4.700 €, Domingo 3.000 €\n- Diciembre: Viernes 3.500 €, Sábado 4.300 €, Domingo 3.000 €\n\nHORARIOS DE FIESTA Y MONTAJES:\n- Viernes: Fiesta hasta 02:00 am. Montaje 24h antes. Recogida antes de las 09:00 am del sábado.\n- Sábado: Fiesta hasta 04:00 am. No se permite montaje 24h antes (salvo contratar mín. 4 habitaciones). Recogida antes de las 09:00 am del domingo.\n- Domingo: Fiesta hasta 23:59. No se permite montaje 24h antes (comienza a las 07:00 am del domingo). Recogida antes de las 10:00 am del lunes.\n\nSERVICIOS EXTRAS:\n- Sillas Tiffany champagne: 2 €/unidad.\n- Parasoles 3x3m: 25 €/unidad.\n- Estufas de calor: 60 €/unidad.\n- Personal extra limpieza baños: 25 €/hora.\n- Habitaciones Deluxe: 180 €/noche (IGIC incluido).\n- Suite Los Pinos: 200 €/noche (IGIC incluido).\n\nNORMATIVAS:\n- Prohibido pirotecnia, arroz y confeti. Permitido pétalos y productos biodegradables.\n- Catering y Dj obligatorios de la lista homologada.\n\nCATERINGS AUTORIZADOS:\n- La Vaquita, Vintia, Yanioma, Chef Jose Rojano, Casa Pueblo, Barbacoa Canaria.\n\nPROVEEDORES AUTORIZADOS EXTRA:\n- Floristería: El Arriate\n- Iluminación/Sonido: Grupo Ruido\n- Carpas: Tentación, Garcitecnia, Loype, Celebraciones Pg, Tents and Events\n- Glitter: Glitter Party\n- Hora Loca: Party Animal\n\nRESERVA:\n- Anticipo de 1.500 € + IGIC (no reembolsable). Resto en dos pagos: 6 meses antes y 1 mes antes.\n- Ceremonias civiles no tienen recargo de montaje de finca (sillas aparte).\n\nREGLA CLAVE PARA CAPTURA DE LEAD:\nSi el usuario indica que desea reservar, visitar la finca o solicita disponibilidad, indícale de forma natural que vas a solicitar sus datos de contacto para que el equipo comercial le asista, y activa la variable de captura agregando el campo `captureLeadStep` en tu respuesta JSON final."
+        }
       },
       "id": "cd15a9ff-039c-49f3-8b7c-d67b2ff90444",
       "name": "AI Agent Chatbot",
@@ -116,7 +98,7 @@
       "typeVersion": 1,
       "position": [
         720,
-        450
+        464
       ]
     },
     {
@@ -129,8 +111,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        680,
-        580
+        688,
+        592
       ],
       "credentials": {
         "groqApi": {
@@ -140,22 +122,20 @@
       }
     },
     {
-      "parameters": {
-        "contextKey": "=chat_history_{{ $node[\"Webhook Chatbot\"].json.body.sessionId }}"
-      },
+      "parameters": {},
       "id": "cd15a9ff-039c-49f3-8b7c-d67b2ff90666",
       "name": "Window Buffer Memory",
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1,
       "position": [
-        820,
-        580
+        832,
+        592
       ]
     },
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={\n  \"reply\": \"{{ $node[\"AI Agent Chatbot\"].json.output }}\",\n  \"suggestedActions\": [\n    \"Ver tarifas\",\n    \"Servicios incluidos\",\n    \"Hablar con alguien\"\n  ],\n  \"captureLeadStep\": {{ $node[\"AI Agent Chatbot\"].json.output.toLowerCase().includes(\"formulario\") || $node[\"AI Agent Chatbot\"].json.output.toLowerCase().includes(\"datos de contacto\") }}\n}",
+        "responseBody": "={\n  \"reply\": {{ JSON.stringify($node[\"AI Agent Chatbot\"].json.output) }},\n  \"suggestedActions\": [\n    \"Ver tarifas\",\n    \"Servicios incluidos\",\n    \"Hablar con alguien\"\n  ],\n  \"captureLeadStep\": {{ $node[\"AI Agent Chatbot\"].json.output.toLowerCase().includes(\"formulario\") || $node[\"AI Agent Chatbot\"].json.output.toLowerCase().includes(\"datos de contacto\") }}\n}",
         "options": {}
       },
       "id": "cd15a9ff-039c-49f3-8b7c-d67b2ff90777",
@@ -163,8 +143,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
       "position": [
-        980,
-        450
+        992,
+        464
       ]
     },
     {
@@ -172,44 +152,48 @@
         "fromEmail": "info@fincapinos.com",
         "toEmail": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.email }}",
         "subject": "Hemos recibido tu solicitud - Finca Los Pinos",
-        "html": "<h3>¡Hola {{ $node[\"Webhook Chatbot\"].json.body.leadData.name }}!</h3>\n<p>Muchas gracias por contactar con Finca Los Pinos. Hemos registrado tu consulta para tu celebración del día <strong>{{ $node[\"Webhook Chatbot\"].json.body.leadData.date }}</strong> con un número aproximado de <strong>{{ $node[\"Webhook Chatbot\"].json.body.leadData.guests }}</strong> invitados.</p>\n<p>Nuestro equipo comercial se pondrá en contacto contigo en un plazo máximo de 24 horas laborables en el teléfono <strong>{{ $node[\"Webhook Chatbot\"].json.body.leadData.phone }}</strong> para detallar los pormenores y coordinar una visita a la finca si lo deseas.</p>\n<br/>\n<p>Un cordial saludo,</p>\n<p><strong>El equipo de Finca Los Pinos</strong></p>"
+        "html": "=<h3>¡Hola {{ $node[\"Webhook Chatbot\"].json.body.leadData.name }}!</h3>\n<p>Muchas gracias por contactar con Finca Los Pinos. Hemos registrado tu consulta para tu celebración del día <strong>{{ $node[\"Webhook Chatbot\"].json.body.leadData.date }}</strong> con un número aproximado de <strong>{{ $node[\"Webhook Chatbot\"].json.body.leadData.guests }}</strong> invitados.</p>\n<p>Nuestro equipo comercial se pondrá en contacto contigo en un plazo máximo de 24 horas laborables en el teléfono <strong>{{ $node[\"Webhook Chatbot\"].json.body.leadData.phone }}</strong> para detallar los pormenores y coordinar una visita a la finca si lo deseas.</p>\n<br/>\n<p>Un cordial saludo,</p>\n<p><strong>El equipo de Finca Los Pinos</strong></p>",
+        "options": {}
       },
       "id": "cb15a9ff-039c-49f3-8b7c-d67b2ff90888",
       "name": "Send Confirmation Email",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 1,
       "position": [
-        950,
-        120
+        960,
+        128
       ],
       "credentials": {
         "smtp": {
           "id": "tPwUjNjK6q5FZIcz",
           "name": "SMTP account"
         }
-      }
+      },
+      "continueOnFail": true
     },
     {
       "parameters": {
-        "fromEmail": "no-reply@fincapinos.com",
-        "toEmail": "info@fincapinos.com",
+        "fromEmail": "info@fincapinos.com",
+        "toEmail": "sergio@macresaa.org",
         "subject": "⚠️ NUEVO LEAD CAPTURADO - Finca Los Pinos",
-        "html": "<h3>Se ha capturado un nuevo lead cualificado desde la landing page:</h3>\n<ul>\n  <li><strong>Nombre:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.name }}</li>\n  <li><strong>Email:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.email }}</li>\n  <li><strong>Teléfono:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.phone }}</li>\n  <li><strong>Fecha Tentativa:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.date }}</li>\n  <li><strong>Invitados:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.guests }}</li>\n  <li><strong>ID Sesión Chat:</strong> {{ $node[\"Webhook Chatbot\"].json.body.sessionId }}</li>\n</ul>\n<p>Por favor, ponte en contacto en menos de 24 horas.</p>"
+        "html": "=<h3>Se ha capturado un nuevo lead cualificado desde la landing page:</h3>\n<ul>\n  <li><strong>Nombre:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.name }}</li>\n  <li><strong>Email:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.email }}</li>\n  <li><strong>Teléfono:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.phone }}</li>\n  <li><strong>Fecha Tentativa:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.date }}</li>\n  <li><strong>Invitados:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.guests }}</li>\n  <li><strong>ID Sesión Chat:</strong> {{ $node[\"Webhook Chatbot\"].json.body.sessionId }}</li>\n</ul>\n<p>Por favor, ponte en contacto en menos de 24 horas.</p>",
+        "options": {}
       },
       "id": "cb15a9ff-039c-49f3-8b7c-d67b2ff90999",
       "name": "Notify Sales Team",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 1,
       "position": [
-        950,
-        280
+        960,
+        288
       ],
       "credentials": {
         "smtp": {
           "id": "tPwUjNjK6q5FZIcz",
           "name": "SMTP account"
         }
-      }
+      },
+      "continueOnFail": true
     },
     {
       "parameters": {
@@ -222,8 +206,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
       "position": [
-        1180,
-        200
+        1184,
+        208
       ]
     }
   ],
@@ -318,13 +302,377 @@
       ]
     }
   },
-  "active": false,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
-  "versionId": "f78bd3c2-d3b2-4d2c-806b-73bc63df6f99",
-  "id": "fincapinos-workflow-mvp",
-  "meta": {
-    "templateCredsSetupCompleted": true
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "96a30160-00f4-4f4e-bfbb-7ab919e3f9be",
+  "activeVersionId": "96a30160-00f4-4f4e-bfbb-7ab919e3f9be",
+  "versionCounter": 100,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-05-27T22:25:40.210Z",
+      "createdAt": "2026-05-27T22:25:40.210Z",
+      "role": "workflow:owner",
+      "workflowId": "inXBN3rrIUveuErK",
+      "projectId": "j5G8ChGCQSEeHa2b",
+      "project": {
+        "updatedAt": "2026-04-15T17:29:52.339Z",
+        "createdAt": "2026-04-15T17:22:21.779Z",
+        "id": "j5G8ChGCQSEeHa2b",
+        "name": "Sergio Martin <sergio.martin.suarez@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "b19a276d-74ef-4628-b71f-51ca81594264"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-05-29T14:43:32.944Z",
+    "createdAt": "2026-05-29T14:43:32.944Z",
+    "versionId": "96a30160-00f4-4f4e-bfbb-7ab919e3f9be",
+    "workflowId": "inXBN3rrIUveuErK",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "chatbot",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "id": "e9389c0b-4654-4f01-92be-6cf2996d7cfc",
+        "name": "Webhook Chatbot",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [
+          256,
+          304
+        ],
+        "webhookId": "49f789fb-30a8-4ff4-9f53-9ffc6f451525"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json.body.type }}",
+                "value2": "lead_capture"
+              }
+            ]
+          }
+        },
+        "id": "fb6f0281-b541-47fe-bb0f-0bf3e6d2462e",
+        "name": "Switch Event Type",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          480,
+          304
+        ]
+      },
+      {
+        "parameters": {
+          "authentication": "airtableTokenApi",
+          "resource": "record",
+          "operation": "create",
+          "base": "appMvp5YeXQS9kcbq",
+          "table": "tblsDCJ4z7Hk2rev1",
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "ID": "=lead-{{ Date.now() }}",
+              "Nombre": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.name }}",
+              "Email": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.email }}",
+              "Telefono": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.phone }}",
+              "Fecha Tentativa": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.date }}",
+              "Invitados": "={{ parseInt($node[\"Webhook Chatbot\"].json.body.leadData.guests) }}",
+              "Consentimiento": true,
+              "Consentimiento_TS": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.consentTimestamp }}",
+              "SessionID": "={{ $node[\"Webhook Chatbot\"].json.body.sessionId }}",
+              "Origen": "landing_page"
+            }
+          },
+          "options": {
+            "typecast": true
+          }
+        },
+        "id": "cb15a9ff-039c-49f3-8b7c-d67b2ff90333",
+        "name": "Airtable Create Lead",
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          720,
+          208
+        ],
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "uZjtNmNUCDrX8Sxm",
+            "name": "Airtable Personal Access Token account 3"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "text": "={{ $json.body.message }}",
+          "options": {
+            "systemMessage": "[INSTRUCCIÓN CRÍTICA DE FUNCIONAMIENTO]\nNo tienes acceso a ninguna herramienta externa, buscador ni navegador (como 'Search', 'Browser' u otros). Tienes terminantemente prohibido intentar llamar a herramientas. Debes responder SIEMPRE directamente al usuario utilizando ÚNICAMENTE la información provista a continuación. Tu respuesta interna debe consistir siempre en la acción \"Final Answer\" con tu respuesta en español. Toda la información de tarifas y capacidad está en este prompt.\n\nEres el asistente virtual oficial de Finca Los Pinos, un prestigioso espacio para celebrar bodas y eventos ubicado en Firgas, Gran Canaria. Tu objetivo es responder dudas con calidez en español de España (hablando de vuestro/vosotros) de manera concisa y clara, e identificar cuándo la pareja desea reservar, visitar la finca o consultar una fecha para derivarlos a capturar sus datos.\n\nINFORMACIÓN VINCULANTE (Única Verdad):\n- Capacidad máxima: 300 invitados.\n- Ubicación: Calle Lomo Obrero 21, Firgas, Gran Canaria. A 20 minutos de Las Palmas.\n- Trayectoria: Más de 15 años de experiencia. Premiados 7 años consecutivos con los Wedding Awards de Bodas.net (2020-2026). Valoración de 4.9/5 con 181 opiniones.\n\nSERVICIOS INCLUIDOS EN EL ALQUILER:\n- Uso de los jardines de la finca.\n- Iluminación básica de jardines.\n- Personal de seguridad.\n- Derechos de música SGAE y AGEDI incluidos.\n- Suite de novios (noche de bodas incluida con desayuno).\n- 5 horas de servicio de limpieza de baños durante el evento.\n- Habitación extra con desayuno incluido.\n- Horas de evento de día: 12 horas (excepto domingos).\n\nTABLA DE TARIFAS DE ALQUILER 2027 (Precios sin IGIC):\n- Enero: Viernes 2.200 €, Sábado 2.700 €, Domingo 2.000 €\n- Febrero: Viernes 2.200 €, Sábado 3.000 €, Domingo 2.000 €\n- Marzo: Viernes 3.000 €, Sábado 3.900 €, Domingo 2.200 €\n- Abril: Viernes 3.900 €, Sábado 4.300 €, Domingo 3.000 €\n- Mayo: Viernes 4.100 €, Sábado 4.800 €, Domingo 3.300 €\n- Junio: Viernes 4.100 €, Sábado 4.800 €, Domingo 3.300 €\n- Julio: Viernes 4.200 €, Sábado 5.000 €, Domingo 3.500 €\n- Agosto: Viernes 4.200 €, Sábado 5.000 €, Domingo 3.500 €\n- Septiembre: Viernes 4.200 €, Sábado 5.000 €, Domingo 3.500 €\n- Octubre: Viernes 3.900 €, Sábado 4.800 €, Domingo 3.300 €\n- Noviembre: Viernes 3.500 €, Sábado 4.700 €, Domingo 3.000 €\n- Diciembre: Viernes 3.500 €, Sábado 4.300 €, Domingo 3.000 €\n\nHORARIOS DE FIESTA Y MONTAJES:\n- Viernes: Fiesta hasta 02:00 am. Montaje 24h antes. Recogida antes de las 09:00 am del sábado.\n- Sábado: Fiesta hasta 04:00 am. No se permite montaje 24h antes (salvo contratar mín. 4 habitaciones). Recogida antes de las 09:00 am del domingo.\n- Domingo: Fiesta hasta 23:59. No se permite montaje 24h antes (comienza a las 07:00 am del domingo). Recogida antes de las 10:00 am del lunes.\n\nSERVICIOS EXTRAS:\n- Sillas Tiffany champagne: 2 €/unidad.\n- Parasoles 3x3m: 25 €/unidad.\n- Estufas de calor: 60 €/unidad.\n- Personal extra limpieza baños: 25 €/hora.\n- Habitaciones Deluxe: 180 €/noche (IGIC incluido).\n- Suite Los Pinos: 200 €/noche (IGIC incluido).\n\nNORMATIVAS:\n- Prohibido pirotecnia, arroz y confeti. Permitido pétalos y productos biodegradables.\n- Catering y Dj obligatorios de la lista homologada.\n\nCATERINGS AUTORIZADOS:\n- La Vaquita, Vintia, Yanioma, Chef Jose Rojano, Casa Pueblo, Barbacoa Canaria.\n\nPROVEEDORES AUTORIZADOS EXTRA:\n- Floristería: El Arriate\n- Iluminación/Sonido: Grupo Ruido\n- Carpas: Tentación, Garcitecnia, Loype, Celebraciones Pg, Tents and Events\n- Glitter: Glitter Party\n- Hora Loca: Party Animal\n\nRESERVA:\n- Anticipo de 1.500 € + IGIC (no reembolsable). Resto en dos pagos: 6 meses antes y 1 mes antes.\n- Ceremonias civiles no tienen recargo de montaje de finca (sillas aparte).\n\nREGLA CLAVE PARA CAPTURA DE LEAD:\nSi el usuario indica que desea reservar, visitar la finca o solicita disponibilidad, indícale de forma natural que vas a solicitar sus datos de contacto para que el equipo comercial le asista, y activa la variable de captura agregando el campo `captureLeadStep` en tu respuesta JSON final."
+          }
+        },
+        "id": "cd15a9ff-039c-49f3-8b7c-d67b2ff90444",
+        "name": "AI Agent Chatbot",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 1,
+        "position": [
+          720,
+          464
+        ]
+      },
+      {
+        "parameters": {
+          "model": "llama-3.3-70b-versatile",
+          "options": {}
+        },
+        "id": "cd15a9ff-039c-49f3-8b7c-d67b2ff90555",
+        "name": "Groq Chat Model",
+        "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+        "typeVersion": 1,
+        "position": [
+          688,
+          592
+        ],
+        "credentials": {
+          "groqApi": {
+            "id": "PHGyBe9fvF2jWPb1",
+            "name": "Groq account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "id": "cd15a9ff-039c-49f3-8b7c-d67b2ff90666",
+        "name": "Window Buffer Memory",
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "typeVersion": 1,
+        "position": [
+          832,
+          592
+        ]
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={\n  \"reply\": {{ JSON.stringify($node[\"AI Agent Chatbot\"].json.output) }},\n  \"suggestedActions\": [\n    \"Ver tarifas\",\n    \"Servicios incluidos\",\n    \"Hablar con alguien\"\n  ],\n  \"captureLeadStep\": {{ $node[\"AI Agent Chatbot\"].json.output.toLowerCase().includes(\"formulario\") || $node[\"AI Agent Chatbot\"].json.output.toLowerCase().includes(\"datos de contacto\") }}\n}",
+          "options": {}
+        },
+        "id": "cd15a9ff-039c-49f3-8b7c-d67b2ff90777",
+        "name": "Respond to Chat Webhook",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1,
+        "position": [
+          992,
+          464
+        ]
+      },
+      {
+        "parameters": {
+          "fromEmail": "info@fincapinos.com",
+          "toEmail": "={{ $node[\"Webhook Chatbot\"].json.body.leadData.email }}",
+          "subject": "Hemos recibido tu solicitud - Finca Los Pinos",
+          "html": "=<h3>¡Hola {{ $node[\"Webhook Chatbot\"].json.body.leadData.name }}!</h3>\n<p>Muchas gracias por contactar con Finca Los Pinos. Hemos registrado tu consulta para tu celebración del día <strong>{{ $node[\"Webhook Chatbot\"].json.body.leadData.date }}</strong> con un número aproximado de <strong>{{ $node[\"Webhook Chatbot\"].json.body.leadData.guests }}</strong> invitados.</p>\n<p>Nuestro equipo comercial se pondrá en contacto contigo en un plazo máximo de 24 horas laborables en el teléfono <strong>{{ $node[\"Webhook Chatbot\"].json.body.leadData.phone }}</strong> para detallar los pormenores y coordinar una visita a la finca si lo deseas.</p>\n<br/>\n<p>Un cordial saludo,</p>\n<p><strong>El equipo de Finca Los Pinos</strong></p>",
+          "options": {}
+        },
+        "id": "cb15a9ff-039c-49f3-8b7c-d67b2ff90888",
+        "name": "Send Confirmation Email",
+        "type": "n8n-nodes-base.emailSend",
+        "typeVersion": 1,
+        "position": [
+          960,
+          128
+        ],
+        "credentials": {
+          "smtp": {
+            "id": "tPwUjNjK6q5FZIcz",
+            "name": "SMTP account"
+          }
+        },
+        "continueOnFail": true
+      },
+      {
+        "parameters": {
+          "fromEmail": "info@fincapinos.com",
+          "toEmail": "sergio@macresaa.org",
+          "subject": "⚠️ NUEVO LEAD CAPTURADO - Finca Los Pinos",
+          "html": "=<h3>Se ha capturado un nuevo lead cualificado desde la landing page:</h3>\n<ul>\n  <li><strong>Nombre:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.name }}</li>\n  <li><strong>Email:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.email }}</li>\n  <li><strong>Teléfono:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.phone }}</li>\n  <li><strong>Fecha Tentativa:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.date }}</li>\n  <li><strong>Invitados:</strong> {{ $node[\"Webhook Chatbot\"].json.body.leadData.guests }}</li>\n  <li><strong>ID Sesión Chat:</strong> {{ $node[\"Webhook Chatbot\"].json.body.sessionId }}</li>\n</ul>\n<p>Por favor, ponte en contacto en menos de 24 horas.</p>",
+          "options": {}
+        },
+        "id": "cb15a9ff-039c-49f3-8b7c-d67b2ff90999",
+        "name": "Notify Sales Team",
+        "type": "n8n-nodes-base.emailSend",
+        "typeVersion": 1,
+        "position": [
+          960,
+          288
+        ],
+        "credentials": {
+          "smtp": {
+            "id": "tPwUjNjK6q5FZIcz",
+            "name": "SMTP account"
+          }
+        },
+        "continueOnFail": true
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "{\n  \"reply\": \"success\"\n}",
+          "options": {}
+        },
+        "id": "cb15a9ff-039c-49f3-8b7c-d67b2ff90111",
+        "name": "Respond Lead Success",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1,
+        "position": [
+          1184,
+          208
+        ]
+      }
+    ],
+    "connections": {
+      "Webhook Chatbot": {
+        "main": [
+          [
+            {
+              "node": "Switch Event Type",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch Event Type": {
+        "main": [
+          [
+            {
+              "node": "Airtable Create Lead",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "AI Agent Chatbot",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Airtable Create Lead": {
+        "main": [
+          [
+            {
+              "node": "Send Confirmation Email",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Notify Sales Team",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send Confirmation Email": {
+        "main": [
+          [
+            {
+              "node": "Respond Lead Success",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent Chatbot": {
+        "main": [
+          [
+            {
+              "node": "Respond to Chat Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Groq Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent Chatbot",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Window Buffer Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent Chatbot",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Sergio Martin",
+    "name": null,
+    "description": null,
+    "autosaved": false,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-05-29T14:43:32.981Z",
+        "id": 101,
+        "workflowId": "inXBN3rrIUveuErK",
+        "versionId": "96a30160-00f4-4f4e-bfbb-7ab919e3f9be",
+        "event": "activated",
+        "userId": "b19a276d-74ef-4628-b71f-51ca81594264"
+      },
+      {
+        "createdAt": "2026-05-29T14:43:34.995Z",
+        "id": 103,
+        "workflowId": "inXBN3rrIUveuErK",
+        "versionId": "96a30160-00f4-4f4e-bfbb-7ab919e3f9be",
+        "event": "activated",
+        "userId": "b19a276d-74ef-4628-b71f-51ca81594264"
+      },
+      {
+        "createdAt": "2026-05-29T14:43:32.970Z",
+        "id": 100,
+        "workflowId": "inXBN3rrIUveuErK",
+        "versionId": "96a30160-00f4-4f4e-bfbb-7ab919e3f9be",
+        "event": "deactivated",
+        "userId": "b19a276d-74ef-4628-b71f-51ca81594264"
+      },
+      {
+        "createdAt": "2026-05-29T14:43:33.455Z",
+        "id": 102,
+        "workflowId": "inXBN3rrIUveuErK",
+        "versionId": "96a30160-00f4-4f4e-bfbb-7ab919e3f9be",
+        "event": "deactivated",
+        "userId": "b19a276d-74ef-4628-b71f-51ca81594264"
+      }
+    ]
   }
 }
